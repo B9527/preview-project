@@ -14,7 +14,7 @@ class UploadSettingViews(APIView):
     def post(self, request, format=None):
         file_obj = self.request.data['file']
         return_data = {
-            "msg": "msg",
+            "msg": "success",
             "code": 200,
             "result": {"file_name": file_obj.name}
         }
@@ -31,7 +31,7 @@ class InputSettingViews(APIView):
         else:
             raise
         return_data = {
-            "msg": "msg",
+            "msg": "success",
             "code": 200,
             "result": {"request_data": request_data}
         }
@@ -81,14 +81,14 @@ class PreviewTableFieldsViews(APIView):
         database_temp = preview_config.database
         table_temp = preview_config.table
 
-        fields = TableData.objects.filter(database__host=host_temp, database__database=database_temp, table=table_temp).values('field')
+        fields = TableData.objects.filter(database__host=host_temp, database__database=database_temp, table=table_temp).values('field').order_by('field').distinct('field')
         fields_value_list = [item['field'] for item in fields]
 
         # 返回数据格式
         return_data = {
             "msg": "success",
             "code": 200,
-            "result": {"database ": {"host": host_temp, "database": database_temp}, "table": table_temp, "fields": fields_value_list}
+            "result": {"tableInfo":{"host": host_temp, "database": database_temp, "table": table_temp}, "fields": fields_value_list}
         }
         return Response(return_data, status=status.HTTP_200_OK)
 
@@ -99,13 +99,16 @@ class PreviewTableDataViews(APIView):
         database = self.request.GET['database']
         table = self.request.GET['table']
         field = self.request.GET['field']
+        data_list = []
 
-        table_data = TableData.objects.filter(database__host=host, database__database=database, table=table, field=field).first()
+        table_data = TableData.objects.filter(database__host=host, database__database=database, table=table, field=field).values('data')
+        for table in table_data:
+            data_list.append(table['data'])
 
         # 返回数据格式
         return_data = {
             "msg": "success",
             "code": 200,
-            "result": {"data": table_data.data}
+            "result": {"data": data_list}
         }
         return Response(return_data, status=status.HTTP_200_OK)
