@@ -5,9 +5,13 @@ from django.contrib.auth import authenticate, login as user_login
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import permissions
 
 
 class LoginView(APIView):
+
+    permission_classes = (permissions.AllowAny,)
+
     def post(self, request):
 
         return_data = {
@@ -29,6 +33,9 @@ class LoginView(APIView):
                 return_data['code'] = 200
                 return_data['user']['name'] = user.username
                 return_data['user']['user_id'] = user.id
+               
         except Exception:
             pass
-        return Response(return_data, status=status.HTTP_200_OK)
+        response = Response(return_data, status=status.HTTP_200_OK)
+        response.set_cookie('name', 'jujule')
+        return response

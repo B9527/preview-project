@@ -4,6 +4,7 @@
 from django.conf.urls import url
 from preview.views.login_views import LoginView
 from preview.views import config_views
+from preview.views import test as baseview
 
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     url(r'^config/list/$', config_views.PreviewConfigListViews.as_view()),
     url(r'^table/$', config_views.PreviewTableFieldsViews.as_view()),
     url(r'^table/data/$', config_views.PreviewTableDataViews.as_view()),
+    url(r'^api-token-auth/', baseview.CookieJSONWebToken.as_view()),
 ]

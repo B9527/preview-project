@@ -8,6 +8,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from preview.serialize import PreviewConfigSerializer
 from preview.models import PreviewConfig, TableData
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import get_user, authenticate
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 class UploadSettingViews(APIView):
@@ -23,8 +27,20 @@ class UploadSettingViews(APIView):
 
 
 class InputSettingViews(APIView):
+    # permission_classes = (IsAuthenticated,)
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAuthenticated,)
+
     def post(self, request, format=None):
         request_data = self.request.data
+        # print request.COOKIES
+        # print request.session.items()
+        # request.user = get_user(request)
+        print request.user
+        # print get_user(request).id
+        if get_user(request).is_authenticated():
+            print "hello-" *20 
+        # request_data['user'] = request.user.id
         serializer = PreviewConfigSerializer(data=request_data, many=False)
         if serializer.is_valid():
             serializer.save()
