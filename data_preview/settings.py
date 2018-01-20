@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'data_preview.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql'，
+        'ENGINE': 'django.db.backends.postgresql',
         'HOST': '192.168.88.132',
         'NAME': 'preview',
         'USER': 'preview',
