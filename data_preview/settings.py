@@ -39,20 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'rest_framework',
-    # 'rest_framework.authtoken',
     'preview'
 ]
 
 MIDDLEWARE = [
     
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'data_preview.middleware.DisableCSRF',
     'django.middleware.csrf.CsrfViewMiddleware',
-    # 'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -85,9 +81,8 @@ WSGI_APPLICATION = 'data_preview.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        # 'HOST': '192.168.3.6',
-        'HOST': '10.10.30.70',
+        'ENGINE': 'django.db.backends.postgresql'，
+        'HOST': '192.168.88.132',
         'NAME': 'preview',
         'USER': 'preview',
         'PASSWORD': 'preview',
@@ -135,10 +130,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-    '10.10.30.70:8080',
-    '10.10.30.70.8000'
-)
 
 
 REST_FRAMEWORK = {
@@ -152,17 +143,3 @@ REST_FRAMEWORK = {
 
        ),
 }
-# # REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         # 'rest_framework.permissions.IsAuthenticated',
-#     ],
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'preview.myauth.CookieAuthentication',
-#     ),
-#     # 'PAGE_SIZE': 20,
-# }
-
-# JWT_AUTH = {
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),  # 过期时间
-#     'JWT_AUTH_HEADER_PREFIX': 'ABC',  # 请求头前缀
-# }
